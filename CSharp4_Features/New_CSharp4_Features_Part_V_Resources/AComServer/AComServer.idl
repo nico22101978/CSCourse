@@ -1,0 +1,35 @@
+// AComServer.idl : IDL source for AComServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AComServer.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(88B4EC6A-8A7C-4169-98CF-1F600C03C248),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface INicosComClass : IDispatch{
+	[id(1)] HRESULT GetData([out, retval] BSTR* data);
+};
+[
+	uuid(95B65026-AC33-4287-AFB6-D0990F43A9DE),
+	version(1.0),
+]
+library AComServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(82E6CD66-802C-4A05-AD55-6CFFB9E665A1)		
+	]
+	coclass NicosComClass
+	{
+		[default] interface INicosComClass;
+	};
+};
+

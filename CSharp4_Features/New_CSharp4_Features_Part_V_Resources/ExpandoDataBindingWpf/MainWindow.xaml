@@ -1,0 +1,34 @@
+﻿<Window x:Class="ExpandoDataBindingWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <StackPanel Name="mainPanel">
+        <TextBlock TextWrapping="Wrap">This example presents, how databinding with ExpandoObjects
+        works. As ExpandoObject implements INotifyPropertyChanged you can change the bound
+        ExpandoObject in either section A or B, the changes will be shown in both sections.
+        </TextBlock>
+        <StackPanel Background="AliceBlue">
+            <TextBlock>Section A enter here:</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Name:</TextBlock>
+                <TextBox Text="{Binding Name}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Age:</TextBlock>
+                <TextBox Text="{Binding Age}"></TextBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Background="Beige"
+                    DataContext="{Binding ElementName=mainPanel, Path=DataContext }">
+            <TextBlock>Section B or enter here:</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Name:</TextBlock>
+                <TextBox Text="{Binding Name}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Age:</TextBlock>
+                <TextBox Text="{Binding Age}"></TextBox>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Window>

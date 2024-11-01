@@ -1,0 +1,26 @@
+HKCR
+{
+	NicosComClass.1 = s 'NicosComClass Class'
+	{
+		CLSID = s '{82E6CD66-802C-4A05-AD55-6CFFB9E665A1}'
+	}
+	NicosComClass = s 'NicosComClass Class'
+	{		
+		CurVer = s 'NicosComClass.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {82E6CD66-802C-4A05-AD55-6CFFB9E665A1} = s 'NicosComClass Class'
+		{
+			ProgID = s 'NicosComClass.1'
+			VersionIndependentProgID = s 'NicosComClass'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{95B65026-AC33-4287-AFB6-D0990F43A9DE}'
+			Version = s '1.0'
+		}
+	}
+}
