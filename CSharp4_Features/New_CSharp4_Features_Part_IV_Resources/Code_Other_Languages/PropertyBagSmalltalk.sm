@@ -1,0 +1,40 @@
+Object subclass: #PropertyBag	instanceVariableNames: 'propertyBag'	classVariableNames: ''	poolDictionaries: ''	category: 'PropertyBagCategory'
+
+
+initialize	super initialize.	propertyBag := Dictionary new.
+
+
+doesNotUnderstand: aMessage	^(1 >= aMessage numArgs)		"If we have more than one argument we can not handle the passed message as property-like selector.
+		Then we delegate this message to the super classes doesNotUnderstand:."		ifTrue:		[			(1 == aMessage numArgs) 
+				"Having one argument: handle as setter and store into the dictionary of properties:"				ifTrue: 				[					propertyBag at: ((aMessage selector subStrings:':') at: 1) put: aMessage argument.				]
+				"Having no argument: handle as getter and get from the dictionary of properties:"				ifFalse:				[					propertyBag at: aMessage selector.				].		]		ifFalse:		[			super doesNotUnderstand: aMessage.		].
+
+
+"                                          Usage:                                              "
+
+
+|AnObject Bag|
+
+"----------------------------------------------------------------------------------------------"
+"Smaltalk's default Behavior on Calling unknown Methods/Properties:"
+    
+"Let's check Smaltalk's default behavior, if we try to invoke a method/property that does not
+exist on an object's type."
+
+AnObject := Object new.
+"The method doesNotUnderstand: will be called, if the caller tries to call a method that does
+not exist on the underlying (read: dynamic) type of the object. The default behavior (derived
+from class Object) of this method is to throw a MessageNotUnderstood exception, which will be
+handled by the IDE in most cases (e.g. in Squeak)."
+"AnObject aProperty:42."
+
+
+"----------------------------------------------------------------------------------------------"
+"Now the User defined PropertyBag Type with dynamic Dispatching:"
+
+"The type PropertyBag provides an override of doesNotUnderstand:, which will be able to handle
+unknown messages as getters and setters of properties:"
+Bag := PropertyBag new.Bag numberProperty:42.Transcript show: 'Here the stored number: ',(Bag numberProperty); cr."As you can see the type of the formerly added property 'numberProperty' is not fixed to
+holding integers. It could be set to an object of type String ('text' in this case):"Bag numberProperty:'text'.Transcript show: 'Here the stored text: ',(Bag numberProperty); cr.    "But in such a case we are better off introducing a new property like so:"Bag textProperty:'another text'.Transcript show: 'Here the stored text: ', (Bag textProperty); cr."But such a method having multiple parameters will be not understood by our object, because it
+is neither recognized as property setter nor as property getter. The method doesNotUnderstand:
+of the super class Object will be called, which throws a MessageNotUnderstood exception""Bag anotherMethod: nil with: 'that'."
