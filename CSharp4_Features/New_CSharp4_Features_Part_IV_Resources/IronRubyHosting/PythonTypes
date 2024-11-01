@@ -1,3 +1,0 @@
-﻿class PythonType:
-    def addTexts(self, x, y):
-        return x.GetText() + y.GetText()
